@@ -1,7 +1,8 @@
 /*
  * tmux_left_bin.c
  * Powerline 风格左 status bar
- * [IME]  [session]  [BG]
+ * [IME] [session + ] [BG]
+ * 箭头在 session 右侧，与 session 融为一体
  *
  * argv[1] = session name
  * argv[2] = window name
@@ -40,25 +41,22 @@ int main(int argc, char *argv[]) {
     { char *p = strchr(session, '\n');  if (p) *p = 0; }
     { char *p = strchr(win_name, '\n'); if (p) *p = 0; }
 
-    /* IME block */
+    /* IME block bg */
     const char *ime_bg = is_en ? C_IME_EN : C_IME_CN;
-    /* Session block */
+    /* Session block bg */
     const char *sess_bg = C_SESSION;
     const char *txt_fg  = C_TEXT_D;
 
-    char a_ime[ARR_SZ];
     char a_sess[ARR_SZ];
 
-    /* [IME] 箭头指向 session 色 */
-    arr_r(a_ime, sizeof(a_ime), ime_bg, sess_bg);
-    /* [session] 箭头指向 C_BG */
+    /* [session + 箭头] 箭头指向 C_BG */
     arr_r(a_sess, sizeof(a_sess), sess_bg, C_BG);
 
-    /* 格式: [IME] a_ime [session] a_sess [BG] */
-    printf("#[fg=%s,bg=%s] %s %s #[fg=%s,bg=%s] %s #[fg=%s,bg=%s]",
+    /* 格式: [IME] [session + a_sess] [BG] */
+    printf("#[fg=%s,bg=%s] %s #[fg=%s,bg=%s] %s%s #[fg=%s,bg=%s]",
            txt_fg, ime_bg, ime_state,
-           a_ime,
            txt_fg, sess_bg, session,
+           a_sess,
            txt_fg, C_BG);
 
     return 0;
