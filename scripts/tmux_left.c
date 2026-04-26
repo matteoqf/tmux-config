@@ -43,8 +43,8 @@ int main(int argc, char *argv[]) {
     /* IME block */
     const char *ime_bg = is_en ? C_IME_EN : C_IME_CN;
     /* Session block */
-    const char *sess_bg = C_SESSION;
-    const char *txt_fg  = C_TEXT_D;
+    const char *sess_bg = prefix ? C_PRE : C_SESSION;
+    const char *txt_fg  = prefix ? C_BG : C_TEXT_D;
 
     /* [IME] [session] */
 
